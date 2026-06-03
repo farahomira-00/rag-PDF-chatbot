@@ -1,0 +1,24 @@
+# Core orchestration (LangChain 1.x — stable, no breaking changes until 2.0)
+langchain>=1.0,<2.0
+langchain-core>=1.0,<2.0
+
+# Provider integrations
+langchain-groq>=1.0,<2.0
+langchain-qdrant>=1.1,<2.0
+langchain-text-splitters>=1.0,<2.0
+langchain-community>=0.3,<1.0
+
+# Local embedding model (FastEmbed, ONNX-based — no API key, no GPU, no torch)
+fastembed>=0.4,<1.0
+
+# Vector database client
+qdrant-client>=1.12,<2.0
+
+# PDF loading
+pypdf>=5.0,<6.0
+
+# UI
+streamlit>=1.40,<2.0
+
+# Config / secrets
+python-dotenv>=1.0,<2.0
