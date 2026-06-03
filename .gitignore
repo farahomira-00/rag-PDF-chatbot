@@ -16,5 +16,5 @@ env/
 .idea/
 .vscode/
 
-# Local PDFs you ingest (don't ship data into the repo)
+# Local PDFs used for ingestion (don't ship data into the repo)
 *.pdf

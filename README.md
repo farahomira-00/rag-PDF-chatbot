@@ -103,7 +103,7 @@ Run once to populate the vector store: `python src/ingest.py <path-to-pdf>`
 
 ---
 
-## Design decisions (for the technical interview)
+## Design decisions
 
 **Chunking strategy.** `RecursiveCharacterTextSplitter`, `chunk_size=1000`
 characters, `chunk_overlap=150`. Recursive splitting prefers natural

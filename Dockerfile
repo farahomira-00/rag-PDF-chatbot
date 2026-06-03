@@ -23,7 +23,7 @@ RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-smal
 # Copy the application code.
 COPY src/ ./src/
 
-# Document the port the app listens on. The grader maps this with -p.
+# Document the port the app listens on; map it at run time with -p.
 # Keep it in sync with APP_PORT in .env (default 8501).
 EXPOSE 8501
 

@@ -27,7 +27,7 @@ def get_pipeline():
 
 
 # Surface configuration errors (e.g. missing API keys) clearly instead of a
-# blank screen, so the grader knows exactly what to fix.
+# blank screen, so the cause is obvious.
 try:
     pipeline = get_pipeline()
 except Exception as e:

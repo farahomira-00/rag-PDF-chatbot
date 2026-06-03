@@ -1,15 +1,14 @@
 """
 ingest.py
 ---------
-ONE-TIME script: load a PDF, split it into chunks, embed each chunk, and
+One-time script: load a PDF, split it into chunks, embed each chunk, and
 store the vectors + metadata in Qdrant Cloud.
 
-The graders will NOT run this (the index is already populated before
-submission), but they will read it closely and ask about every decision.
-So the comments below double as the justification for each choice.
+This populates the vector store that the chatbot queries at runtime. It only
+needs to be run once per document; the deployed app does not run ingestion.
 
-Run it yourself once, before submitting:
-    python src/ingest.py path/to/document.pdf
+Usage:
+    python src/ingest.py <path-to-pdf>
 """
 
 import sys
@@ -42,7 +41,7 @@ def load_pdf(pdf_path: str):
 def split_into_chunks(pages):
     """Split pages into overlapping chunks suitable for retrieval.
 
-    CHUNKING STRATEGY (the most-discussed interview topic):
+    CHUNKING STRATEGY:
 
     - Method: RecursiveCharacterTextSplitter. It tries to split on natural
       boundaries first (paragraphs, then lines, then sentences, then words),
@@ -148,8 +147,8 @@ def main():
     vector_size = len(embeddings.embed_query("dimension probe"))
     print(f"Embedding dimension: {vector_size}")
 
-# 5) Make sure the Qdrant collection exists with the right vector size.
-# A generous timeout makes uploads resilient on slower connections.
+    # 5) Make sure the Qdrant collection exists with the right vector size.
+    # A generous timeout makes uploads resilient on slower connections.
     client = QdrantClient(
         url=config.QDRANT_URL,
         api_key=config.QDRANT_API_KEY,

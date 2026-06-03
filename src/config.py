@@ -7,7 +7,7 @@ Why one file: the assessment scores how we handle configuration and secrets.
 Keeping every setting here (and reading secrets only from environment
 variables) means:
   - no API key is ever written in code or committed to git
-  - the grader can change models / collection name without touching code
+  - models / collection name can be changed via env vars without code edits
   - it's obvious what is configurable just by reading this one file
 """
 
@@ -59,8 +59,8 @@ FASTEMBED_CACHE_DIR = os.getenv("FASTEMBED_CACHE_DIR") or None
 # context to answer, few enough to keep the prompt focused and cheap.
 TOP_K = int(os.getenv("TOP_K", "4"))
 
-# Chunking settings (used by ingest.py). Kept here so the interview
-# discussion about chunking maps directly to real, visible numbers.
+# Chunking settings (used by ingest.py). Kept here so the chunk size and
+# overlap are visible and tunable in one place.
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
 
