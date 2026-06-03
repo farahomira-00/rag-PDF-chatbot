@@ -23,21 +23,21 @@ The vector index is **already populated in Qdrant Cloud**, so there is no
 ingestion step to run. The app answers questions as soon as the container starts.
 
 ```bash
-# 1. Clone
-git clone <your-repo>
-cd <repo>
+# 1. Clone the repository
+git clone <repository-url>
+cd rag-pdf-chatbot
 
-# 2. Create your .env from the template and fill in the keys
+# 2. Create the .env file from the template and fill in the keys
 cp .env.example .env
-#    -> edit .env: GROQ_API_KEY, QDRANT_URL, QDRANT_API_KEY
+#    Required in .env: GROQ_API_KEY, QDRANT_URL, QDRANT_API_KEY
 
-# 3. Build
+# 3. Build the image
 docker build -t chatbot:1.0 .
 
-# 4. Run  (the app listens on port 8501)
+# 4. Run the container (the app listens on port 8501)
 docker run -p 8501:8501 --env-file .env chatbot:1.0
 
-# 5. Open the app
+# 5. Open the app in a browser
 #    http://localhost:8501
 ```
 
@@ -71,7 +71,7 @@ User question ──app.py──> rag.py ──> [embed question] ──> [searc
 ```
 
 ### Ingestion (`src/ingest.py`)
-Run once before submission: `python src/ingest.py path/to/document.pdf`
+Run once to populate the vector store: `python src/ingest.py <path-to-pdf>`
 
 1. **Load** — `PyPDFLoader` reads the PDF into one document per page and
    captures the **page number** in metadata. We need that page number for the
@@ -79,8 +79,10 @@ Run once before submission: `python src/ingest.py path/to/document.pdf`
 2. **Chunk** — see "Chunking strategy" below.
 3. **Enrich metadata** — each chunk stores `page` (1-based), `source`
    (file name), and `chunk_index`.
-4. **Embed & upload** — chunks are embedded with `text-embedding-3-small` and
-   stored in a Qdrant collection (cosine distance, 1536-dim vectors).
+4. **Embed & upload** — chunks are embedded with FastEmbed `bge-small-en-v1.5`
+   and stored in a Qdrant collection (cosine distance, 384-dim vectors). The
+   collection's vector size is derived from the model at runtime rather than
+   hardcoded.
 
 ### Retrieval & answering (`src/rag.py`)
 - The question is embedded with the **same** model used at ingestion (so query
